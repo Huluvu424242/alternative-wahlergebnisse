@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <title>Bar Chart</title>
+</head>
+<style>
+    svg rect {
+        fill: orange;
+    }
+
+    svg text {
+        fill: black;
+        font: 10px sans-serif;
+        text-anchor: end;
+    }
+</style>
+<body>
+<svg class="chart" width="120" height="420">
+    <g transform="translate(10,0)">
+        <rect width="20" height="50"></rect>
+        <text x="9.5" y="47" dy=".35em">5</text>
+    </g>
+    <g transform="translate(40,0)">
+        <rect width="20" height="100"></rect>
+        <text x="9.5" y="97" dy=".35em">10</text>
+    </g>
+    <g transform="translate(80,0)">
+        <rect width="20" height="120"></rect>
+        <text x="9.5" y="117" dy=".35em">12</text>
+    </g>
+</svg>
+</body>
+</html>
