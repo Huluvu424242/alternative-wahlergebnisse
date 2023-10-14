@@ -7,6 +7,7 @@ Enthält die Metadaten zur Wahl wie:
 * Überschrift z.B. "Bayern Landtagswahlen 2023"
 * Tag der Wahl
 * Tag der Bereitstellung des amtlichen Wahlergebnisses
+* URL zu den offiziellen Wahlergebnissen 
 
 ## *.csv Datei
 Enthält die Werte der Abstimmung wie:
