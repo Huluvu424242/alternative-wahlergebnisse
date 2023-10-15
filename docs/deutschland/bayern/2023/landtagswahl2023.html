@@ -19,10 +19,53 @@
 <h1>Bayern - Landtagswahl 2023</h1>
 <h2>Alternative Berechnungen - unter Konstruktion</h2>
 
-<svg width="600" height="500"></svg>
+<svg id="diagram" width="600" height="500"></svg>
+<div id="tooltip" ></div>
+
 <script>
 
-    var svg = d3.select("svg"),
+    var Tooltip = d3.select("#tooltip")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+
+    var mouseover = function(d) {
+        Tooltip
+            .style("opacity", 1)
+        d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1)
+    }
+
+    var mouseleave = function(d) {
+        Tooltip
+            .style("opacity", 0)
+        d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 0.8)
+    }
+
+    var mousemoveAlt = function(d) {
+        Tooltip
+            .html("Anteil bezogen auf alle potentiellen Wählerstimmen:<br>ist: " + (d.stimmen*100/gesamtstimmen).toFixed(2) + " %.")
+            .style("left", (d3.mouse(this)[0]+70) + "px")
+            .style("top", (d3.mouse(this)[1]) + "px")
+    }
+
+    var mousemoveOrg = function(d) {
+        Tooltip
+            .html("Anteil bezogen nur auf alle gültigen Wählerstimmen<br>ist: " + d.prozent + " %.")
+            .style("left", (d3.mouse(this)[0]+70) + "px")
+            .style("top", (d3.mouse(this)[1]) + "px")
+    }
+
+    <!-- diagram logic -->
+
+    var svg = d3.select("#diagram"),
         margin = 200,
         width = svg.attr("width") - margin,
         height = svg.attr("height") - margin;
@@ -86,7 +129,11 @@
             .attr("x", function(d) { return xScale(d.name); })
             .attr("y", function(d) { return yScale(d.stimmen*100/gesamtstimmen); })
             .attr("width", xScale.bandwidth()/2)
-            .attr("height", function(d) { return height - yScale(d.stimmen*100/gesamtstimmen); });
+            .attr("height", function(d) { return height - yScale(d.stimmen*100/gesamtstimmen); })
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemoveAlt)
+            .on("mouseleave", mouseleave)
+        ;
 
 
         <!-- Offizielle Werte -->
@@ -94,10 +141,14 @@
             .data(data)
             .enter().append("rect")
             .attr("class", "barorg")
-            .attr("x", function(d) { return xScale(d.name)+20; })
+            .attr("x", function(d) { return xScale(d.name)+25; })
             .attr("y", function(d) { return yScale(d.prozent); })
             .attr("width", xScale.bandwidth()/2)
-            .attr("height", function(d) { return height - yScale(d.prozent); });
+            .attr("height", function(d) { return height - yScale(d.prozent); })
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemoveOrg)
+            .on("mouseleave", mouseleave)
+        ;
     });
 
 
