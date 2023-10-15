@@ -6,6 +6,9 @@
     <title>Titel</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <style>
+        text{
+            font-size: 1.5em;
+        }
         #legend svg {
             height: 300px;
         }
@@ -52,14 +55,14 @@
 
     var mousemoveAlt = function(d) {
         Tooltip
-            .html("Anteil bezogen auf alle potentiellen Wählerstimmen<br>ist: " + (d.stimmen*100/gesamtstimmen).toFixed(2) + " %.")
+            .html("Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung)<br>ist: " + (d.stimmen*100/gesamtstimmen).toFixed(1) + " %.")
             .style("left", (d3.mouse(this)[0]+70) + "px")
             .style("top", (d3.mouse(this)[1]) + "px")
     }
 
     var mousemoveOrg = function(d) {
         Tooltip
-            .html("Anteil bezogen nur auf alle gültigen Wählerstimmen<br>ist: " + d.prozent + " %.")
+            .html("Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung)<br>ist: " + d.prozent + " %.")
             .style("left", (d3.mouse(this)[0]+70) + "px")
             .style("top", (d3.mouse(this)[1]) + "px")
     }
