@@ -5,3 +5,6 @@ nr,name,stimmen,prozent,altcolor,orgcolor
 4,AFD,1999924.0,16.6,lightblue,darkblue
 5,SPD,1140585.0,8.4,pink,red
 6,FDP,413595.0,3.0,	yellow,#ffcc00
+7,Linke,200795.0,1.5, #ff6347, #cd4f39
+8,BP,129469.0,0.9,#f5deb3,#cdba96
+9,ÖDP,245145.0,1.8,#ffffe0,#cdcdb4
