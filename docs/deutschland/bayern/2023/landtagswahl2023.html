@@ -56,7 +56,15 @@
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(xScale).tickFormat(function(d){
                 return ''+ d;
-            }));
+            }))
+            .append("text")
+            .attr("x", 600/2)
+            .attr("dx", "-5.1em")
+            .attr("y", 6)
+            .attr("dy", "5.1em")
+            .attr("text-anchor", "end")
+            .attr("stroke", "black")
+            .text("Parteien zur Wahl");
 
         g.append("g")
             .call(d3.axisLeft(yScale).tickFormat(function(d){
