@@ -9,6 +9,9 @@
         .bar {
             fill: steelblue;
         }
+        .barorg {
+            fill: orangered;
+        }
     </style>
 </head>
 <body>
@@ -25,7 +28,7 @@
         height = svg.attr("height") - margin;
 
 
-    var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
+    var xScale = d3.scaleBand().range ([0, width]).padding(0.2),
         yScale = d3.scaleLinear().range ([height, 0]);
 
     var g = svg.append("g")
@@ -36,7 +39,7 @@
     var dataFileName = '2023_bayern_landtagswahl.csv';
     var gesamtstimmen = 18822796.0;
     var minProzentAnzeige = 0;
-    var maxProzentAnzeige = 30;
+    var maxProzentAnzeige = 40;
     var tickAnzahl = (maxProzentAnzeige-minProzentAnzeige)/5;
 
     d3.csv(dataFileName, function(error, data) {
@@ -44,7 +47,9 @@
             throw error;
         }
 
-        xScale.domain(data.map(function(d) { return d.name; }));
+        var xdomain = data.map(function(d) { return d.name; });
+
+        xScale.domain(xdomain);
         yScale.domain([minProzentAnzeige,maxProzentAnzeige]);
 
         g.append("g")
@@ -65,14 +70,25 @@
             .attr("stroke", "black")
             .text("Stimmen in Prozent");
 
+        <!-- Alternative Werte -->
         g.selectAll(".bar")
             .data(data)
             .enter().append("rect")
             .attr("class", "bar")
             .attr("x", function(d) { return xScale(d.name); })
             .attr("y", function(d) { return yScale(d.stimmen*100/gesamtstimmen); })
-            .attr("width", xScale.bandwidth())
+            .attr("width", xScale.bandwidth()/2)
             .attr("height", function(d) { return height - yScale(d.stimmen*100/gesamtstimmen); });
+
+        <!-- Offizielle Werte -->
+        g.selectAll(".barorg")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "barorg")
+            .attr("x", function(d) { return xScale(d.name)+20; })
+            .attr("y", function(d) { return yScale(d.prozent); })
+            .attr("width", xScale.bandwidth()/2)
+            .attr("height", function(d) { return height - yScale(d.prozent); });
     });
 
 
