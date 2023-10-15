@@ -6,21 +6,22 @@
     <title>Titel</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <style>
-        .bar {
-            fill: steelblue;
-        }
-        .barorg {
-            fill: orangered;
+        #legend svg {
+            height: 300px;
         }
     </style>
 </head>
 <body>
 
 <h1>Bayern - Landtagswahl 2023</h1>
-<h2>Alternative Berechnungen - unter Konstruktion</h2>
+<h2>Alternative Berechnungen (Seite noch im Aufbau)</h2>
+<p>
+    Datenquelle: <a href="https://www.landtagswahl2023.bayern.de/ergebnis_tabelle_990.html#anker">https://www.landtagswahl2023.bayern.de/ergebnis_tabelle_990.html#anker</a>
+</p>
 
 <svg id="diagram" width="600" height="500"></svg>
 <div id="tooltip" ></div>
+<svg id="legend"></svg>
 
 <script>
 
@@ -51,7 +52,7 @@
 
     var mousemoveAlt = function(d) {
         Tooltip
-            .html("Anteil bezogen auf alle potentiellen Wählerstimmen:<br>ist: " + (d.stimmen*100/gesamtstimmen).toFixed(2) + " %.")
+            .html("Anteil bezogen auf alle potentiellen Wählerstimmen<br>ist: " + (d.stimmen*100/gesamtstimmen).toFixed(2) + " %.")
             .style("left", (d3.mouse(this)[0]+70) + "px")
             .style("top", (d3.mouse(this)[1]) + "px")
     }
@@ -111,7 +112,7 @@
 
         g.append("g")
             .call(d3.axisLeft(yScale).tickFormat(function(d){
-                return "$" + d;
+                return  d + ' %';
             }).ticks(tickAnzahl))
             .append("text")
             .attr("transform", "rotate(-90)")
@@ -126,6 +127,7 @@
             .data(data)
             .enter().append("rect")
             .attr("class", "bar")
+            .style('fill', d => d.altcolor)
             .attr("x", function(d) { return xScale(d.name); })
             .attr("y", function(d) { return yScale(d.stimmen*100/gesamtstimmen); })
             .attr("width", xScale.bandwidth()/2)
@@ -141,6 +143,7 @@
             .data(data)
             .enter().append("rect")
             .attr("class", "barorg")
+            .style('fill', d => d.orgcolor)
             .attr("x", function(d) { return xScale(d.name)+25; })
             .attr("y", function(d) { return yScale(d.prozent); })
             .attr("width", xScale.bandwidth()/2)
@@ -149,12 +152,45 @@
             .on("mousemove", mousemoveOrg)
             .on("mouseleave", mouseleave)
         ;
+
+        <!-- add legend -->
+        var xOffset = 10;
+        var yOffset = 100;
+        var legendItemSize = 12;
+        var legendSpacing = 4;
+
+        var legend = d3.select("#legend");
+
+        legend
+            .enter()
+            .append('rect')
+            .attr('class', 'legendItem')
+            .attr('width', legendItemSize)
+            .attr('height', legendItemSize)
+            .style('fill', d => d.color)
+            .attr('transform',
+                (d, i) => {
+                    var x = xOffset;
+                    var y = yOffset + (legendItemSize + legendSpacing) * i;
+                    return `translate(${x}, ${y})`;
+                });
+
+        legend
+            .enter()
+            .append('text')
+            .attr('x', xOffset + legendItemSize + 5)
+            .attr('y', (d, i) => yOffset + (legendItemSize + legendSpacing) * i + 12)
+            .text(d => d.name);
+
     });
 
 
 </script>
 
-Online unter: https://huluvu424242.github.io/alternative-wahlergebnisse/deutschland/bayern/2023/landtagswahl2023.html
+<p>
+    URL dieser Seite: <a href="Online unter: https://huluvu424242.github.io/alternative-wahlergebnisse/deutschland/bayern/2023/landtagswahl2023.html">
+    Online unter: https://huluvu424242.github.io/alternative-wahlergebnisse/deutschland/bayern/2023/landtagswahl2023.html</a>
+</p>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
-nr,name,stimmen,prozent
-1,CSU,5059142.0,37.0
-2,Grüne,1972147.0,14.4
-3,FW,2163353.0,15.8
-4,AFD,1999924.0,16.6
-5,SPD,1140585.0,8.4
-6,FDP,413595.0,3.0
+nr,name,stimmen,prozent,altcolor,orgcolor
+1,CSU,5059142.0,37.0,slategray,black
+2,Grüne,1972147.0,14.4,green,darkgreen
+3,FW,2163353.0,15.8,lightgrey,darkgrey
+4,AFD,1999924.0,16.6,lightblue,darkblue
+5,SPD,1140585.0,8.4,pink,red
+6,FDP,413595.0,3.0,	yellow,#ffcc00
