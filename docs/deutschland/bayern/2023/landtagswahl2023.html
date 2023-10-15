@@ -82,11 +82,13 @@
         g.selectAll(".bar")
             .data(data)
             .enter().append("rect")
+            .attr("title", "37/5")
             .attr("class", "bar")
             .attr("x", function(d) { return xScale(d.name); })
             .attr("y", function(d) { return yScale(d.stimmen*100/gesamtstimmen); })
             .attr("width", xScale.bandwidth()/2)
             .attr("height", function(d) { return height - yScale(d.stimmen*100/gesamtstimmen); });
+
 
         <!-- Offizielle Werte -->
         g.selectAll(".barorg")
