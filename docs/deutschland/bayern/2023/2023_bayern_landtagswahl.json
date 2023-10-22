@@ -1,10 +1,21 @@
 {
   "wahlberechtigt": 9411398.0,
+  "beteiligtewaehler": 6902684,
   "stimmengesamt": 18822796.0,
   "stimmengueltig": 13655897.0,
   "wahltag": "08.10.2023",
-  "parteien": {
-    "csu": 5059142.0
-
+  "stimmen": [
+    {"name":"CSU", "stimmen": 5059142.0},
+    {"name":"Grüne","stimmen":1972147}
+  ],
+  "colors": {
+    "CSU": {
+      "alt":"slategray",
+      "org": "black"
+    },
+    "Grüne": {
+      "alt":"green",
+      "org": "darkgreen"
+    }
   }
 }

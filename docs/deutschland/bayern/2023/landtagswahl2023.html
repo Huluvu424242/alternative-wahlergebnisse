@@ -28,46 +28,8 @@
 
 <script>
 
-    var Tooltip = d3.select("#tooltip")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
 
-    var mouseover = function(d) {
-        Tooltip
-            .style("opacity", 1)
-        d3.select(this)
-            .style("stroke", "black")
-            .style("opacity", 1)
-    }
-
-    var mouseleave = function(d) {
-        Tooltip
-            .style("opacity", 0)
-        d3.select(this)
-            .style("stroke", "none")
-            .style("opacity", 0.8)
-    }
-
-    var mousemoveAlt = function(d) {
-        Tooltip
-            .html("Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" +d.name+": " + (d.stimmen*100/gesamtstimmen).toFixed(1) + " %.")
-            .style("left", (d3.mouse(this)[0]+70) + "px")
-            .style("top", (d3.mouse(this)[1]) + "px")
-    }
-
-    var mousemoveOrg = function(d) {
-        Tooltip
-            .html("Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>"+d.name + ": " + d.prozent + " %.")
-            .style("left", (d3.mouse(this)[0]+70) + "px")
-            .style("top", (d3.mouse(this)[1]) + "px")
-    }
-
-    <!-- diagram logic -->
+    <!-- svg rahmen -->
 
     var svg = d3.select("#diagram"),
         margin = 200,
@@ -81,24 +43,73 @@
     var g = svg.append("g")
         .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-
-    <!-- Beginn konkrete Daten -->
-    var dataFileName = '2023_bayern_landtagswahl.csv';
-    var gesamtstimmen = 18822796.0;
-    var minProzentAnzeige = 0;
-    var maxProzentAnzeige = 40;
-    var tickAnzahl = (maxProzentAnzeige-minProzentAnzeige)/5;
-
-    d3.csv(dataFileName, function(error, data) {
+    var dataFileName = '2023_bayern_landtagswahl.json';
+    d3.json(dataFileName, function(error, data) {
         if (error) {
             throw error;
         }
 
-        var xdomain = data.map(function(d) { return d.name; });
+        console.log(data);
+
+        <!-- Beginn konkrete Daten -->
+        var gesamtstimmen = 18822796.0;
+        var stimmengueltig= data.stimmengueltig;
+        var minProzentAnzeige = 0;
+        var maxProzentAnzeige = 40;
+        var tickAnzahl = (maxProzentAnzeige-minProzentAnzeige)/5;
+        var colors=data.colors;
+
+        <!-- Lengende bei Mouse Over -->
+        var Tooltip = d3.select("#tooltip")
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+
+        var mouseover = function(d) {
+            Tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", 1)
+        }
+
+        var mouseleave = function(d) {
+            Tooltip
+                .style("opacity", 0)
+            d3.select(this)
+                .style("stroke", "none")
+                .style("opacity", 0.8)
+        }
+
+        var mousemoveAlt = function(d) {
+            Tooltip
+                .html("Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" +d.name+": " + (d.stimmen*100/gesamtstimmen).toFixed(1) + " %.")
+                .style("left", (d3.mouse(this)[0]+70) + "px")
+                .style("top", (d3.mouse(this)[1]) + "px")
+        }
+
+        var mousemoveOrg = function(d) {
+            Tooltip
+                .html("Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>"+d.name + ": " + (d.stimmen*100/stimmengueltig).toFixed(1)+ " %.")
+                .style("left", (d3.mouse(this)[0]+70) + "px")
+                .style("top", (d3.mouse(this)[1]) + "px")
+        }
+
+
+
+
+        var xdomain = data.stimmen.map(function(d) {
+            console.log(d);
+            return d.name; });
 
         xScale.domain(xdomain);
         yScale.domain([minProzentAnzeige,maxProzentAnzeige]);
 
+        <!-- X-Achse -->
         g.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(xScale).tickFormat(function(d){
@@ -113,6 +124,7 @@
             .attr("stroke", "black")
             .text("Parteien zur Wahl");
 
+        <!-- Y-Achse -->
         g.append("g")
             .call(d3.axisLeft(yScale).tickFormat(function(d){
                 return  d + ' %';
@@ -127,10 +139,10 @@
 
         <!-- Alternative Werte -->
         g.selectAll(".bar")
-            .data(data)
+            .data(data.stimmen)
             .enter().append("rect")
             .attr("class", "bar")
-            .style('fill', d => d.altcolor)
+            .style('fill', d => colors[d.name].alt)
             .attr("x", function(d) { return xScale(d.name); })
             .attr("y", function(d) { return yScale(d.stimmen*100/gesamtstimmen); })
             .attr("width", xScale.bandwidth()/2)
@@ -143,14 +155,14 @@
 
         <!-- Offizielle Werte -->
         g.selectAll(".barorg")
-            .data(data)
+            .data(data.stimmen)
             .enter().append("rect")
             .attr("class", "barorg")
-            .style('fill', d => d.orgcolor)
+            .style('fill', d => colors[d.name].org)
             .attr("x", function(d) { return xScale(d.name)+25; })
-            .attr("y", function(d) { return yScale(d.prozent); })
+            .attr("y", function(d) { return yScale(d.stimmen*100/stimmengueltig); })
             .attr("width", xScale.bandwidth()/2)
-            .attr("height", function(d) { return height - yScale(d.prozent); })
+            .attr("height", function(d) { return height - yScale(d.stimmen*100/stimmengueltig); })
             .on("mouseover", mouseover)
             .on("mousemove", mousemoveOrg)
             .on("mouseleave", mouseleave)
