@@ -1,4 +1,10 @@
 {
+  "version": "1.0",
+  "titel":"Bayern - Landtagswahl 2023",
+  "untertitel": "Alternative Berechnungen (Seite noch im Aufbau)",
+  "datenquelle": {"name":"Der Landeswahlleiter des Freistaates Bayern","url":"https://www.landtagswahl2023.bayern.de/ergebnis_tabelle_990.html#anker"},
+  "minProzentAnzeige": 0,
+  "maxProzentAnzeige": 40,
   "wahlberechtigt": 9411398.0,
   "beteiligtewaehler": 6902684,
   "stimmengesamt": 18822796.0,

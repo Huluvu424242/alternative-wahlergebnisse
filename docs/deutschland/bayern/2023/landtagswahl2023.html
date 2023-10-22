@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titel</title>
+    <title id="seitentitel">Titel</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <style>
         text{
@@ -16,17 +16,27 @@
 </head>
 <body>
 
-<h1>Bayern - Landtagswahl 2023</h1>
-<h2>Alternative Berechnungen (Seite noch im Aufbau)</h2>
-<p>
-    Datenquelle: <a href="https://www.landtagswahl2023.bayern.de/ergebnis_tabelle_990.html#anker">https://www.landtagswahl2023.bayern.de/ergebnis_tabelle_990.html#anker</a>
-</p>
+<h1 id="titel"></h1>
+<h2 id="untertitel"></h2>
+<p id="quelle"></p>
 
 <svg id="diagram" width="800" height="600"></svg>
 <div id="tooltip" ></div>
 <svg id="legend"></svg>
 
 <script>
+
+    var dataFileName = '2023_bayern_landtagswahl.json';
+    d3.json(dataFileName, function(error, data) {
+        if (error) {
+            throw error;
+        }
+
+        <!-- Statischer Text-->
+        d3.select("#seitentitel").text(data.titel);
+        d3.select("#titel").text(data.titel);
+        d3.select("#untertitel").text(data.untertitel);
+        d3.select("#quelle").html("Datenquelle: <a href=\""+data.datenquelle.url+"\">"+data.datenquelle.name+"</a>");
 
 
     <!-- svg rahmen -->
@@ -43,21 +53,17 @@
     var g = svg.append("g")
         .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-    var dataFileName = '2023_bayern_landtagswahl.json';
-    d3.json(dataFileName, function(error, data) {
-        if (error) {
-            throw error;
-        }
 
-        console.log(data);
-
-        <!-- Beginn konkrete Daten -->
-        var gesamtstimmen = 18822796.0;
+        <!-- Metadaten -->
+        var gesamtstimmen = data.stimmengesamt;
         var stimmengueltig= data.stimmengueltig;
-        var minProzentAnzeige = 0;
-        var maxProzentAnzeige = 40;
+        var minProzentAnzeige = data.minProzentAnzeige;
+        var maxProzentAnzeige = data.maxProzentAnzeige;
         var tickAnzahl = (maxProzentAnzeige-minProzentAnzeige)/5;
         var colors=data.colors;
+
+
+
 
         <!-- Lengende bei Mouse Over -->
         var Tooltip = d3.select("#tooltip")
@@ -99,8 +105,7 @@
                 .style("top", (d3.mouse(this)[1]) + "px")
         }
 
-
-
+        <!-- Diagramm Logik -->
 
         var xdomain = data.stimmen.map(function(d) {
             console.log(d);
