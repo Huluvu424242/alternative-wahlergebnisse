@@ -6,7 +6,14 @@
   "wahltag": "08.10.2023",
   "stimmen": [
     {"name":"CSU", "stimmen": 5059142.0},
-    {"name":"Grüne","stimmen":1972147}
+    {"name":"Grüne","stimmen":1972147.0},
+    {"name":"FW","stimmen":2163353.0},
+    {"name":"AFD","stimmen":1999924.0},
+    {"name":"SPD","stimmen":1140585.0},
+    {"name":"FDP","stimmen":413595.0},
+    {"name":"Linke","stimmen":200795.0},
+    {"name":"BP","stimmen":129469.0},
+    {"name":"ÖDP","stimmen":245145.0}
   ],
   "colors": {
     "CSU": {
@@ -16,6 +23,34 @@
     "Grüne": {
       "alt":"green",
       "org": "darkgreen"
+    },
+    "FW": {
+      "alt": "lightgrey",
+      "org": "darkgrey"
+    },
+    "AFD": {
+      "alt": "lightblue",
+      "org": "darkblue"
+    },
+    "SPD": {
+      "alt": "pink",
+      "org": "red"
+    },
+    "FDP": {
+      "alt": "yellow",
+      "org": "#ffcc00"
+    },
+    "Linke": {
+      "alt": "#ff6347",
+      "org": "#cd4f39"
+    },
+    "BP": {
+      "alt": "#f5deb3",
+      "org": "#cdba96"
+    },
+    "ÖDP": {
+      "alt": "#ffffe0",
+      "org": "#cdcdb4"
     }
   }
 }
