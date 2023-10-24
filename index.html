@@ -7,9 +7,13 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="src/js/wahlanzeige.js"></script>
     <style>
-        text{
+        .auswahl{
+            width: 100%;
+        }
+        text {
             font-size: 1.5em;
         }
+
         #legend svg {
             height: 300px;
         }
@@ -17,18 +21,36 @@
 </head>
 <body>
 
-<h1 id="titel"></h1>
-<h2 id="untertitel"></h2>
+<h1>Vergleich alternativer Wahlergebnisse mit offiziellen Wahlergebnissen</h1>
+
+<h2>Auswahl der Wahldaten</h2>
+<label>Bitte wählen:
+    <select id="wahldaten" name="Wahldaten" size="5" class="auswahl">
+        <option value="2023_bayern_landtagswahl.json">2023 Bayern Landtagswahl</option>
+        <option value="P102">Unbekannt1</option>
+        <option value="P102">Unbekannt2</option>
+        <option value="P102">Unbekannt3</option>
+        <option value="P102">Unbekannt4</option>
+        <option value="P102">Unbekannt5</option>
+        <option value="P102">Unbekannt6</option>
+        <option value="P102">Unbekannt7</option>
+        <option value="P102">Unbekannt8</option>
+    </select>
+</label>
+
+
+<h2 id="titel"></h2>
+<h3 id="untertitel"></h3>
 <p id="quelle"></p>
 
 <svg id="diagram" width="800" height="600"></svg>
-<div id="tooltip" ></div>
+<div id="tooltip"></div>
 <svg id="legend"></svg>
 
 
-
 <p>
-    URL dieser Seite: <a href="https://huluvu424242.github.io/alternative-wahlergebnisse/deutschland/bayern/2023/landtagswahl2023.html">
+    URL dieser Seite: <a
+        href="https://huluvu424242.github.io/alternative-wahlergebnisse/deutschland/bayern/2023/landtagswahl2023.html">
     https://huluvu424242.github.io/alternative-wahlergebnisse/deutschland/bayern/2023/landtagswahl2023.html</a>
 </p>
 
