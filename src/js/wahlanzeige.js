@@ -35,7 +35,6 @@ function redrawDiagram() {
     d3.json(dataFilePath + dataFileName, function (error, data) {
         if (error) {
             <!-- Statischer Text-->
-            d3.select("#seitentitel").text("");
             d3.select("#titel").text("");
             d3.select("#untertitel").text("");
             d3.select("#quelle").html("");
@@ -44,7 +43,6 @@ function redrawDiagram() {
         }
 
         <!-- Statischer Text-->
-        d3.select("#seitentitel").text(data.titel);
         d3.select("#titel").text(data.titel);
         d3.select("#untertitel").text(data.untertitel);
         d3.select("#quelle").html("Datenquelle: <a href=\"" + data.datenquelle.url + "\">" + data.datenquelle.name + "</a>");
