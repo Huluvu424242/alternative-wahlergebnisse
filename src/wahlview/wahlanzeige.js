@@ -1,4 +1,4 @@
-var dataFilePath = 'data/deutschland/bayern/2023/';
+var dataFilePath = 'data/';
 var dataFileName = '';
 
 document.addEventListener('DOMContentLoaded', function () {
