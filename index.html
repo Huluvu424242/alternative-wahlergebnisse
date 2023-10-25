@@ -4,25 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="seitentitel">Alternative Wahlergebnisse</title>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="src/js/wahlanzeige.js"></script>
-    <style>
-        .auswahl{
-            width: 100%;
-        }
-        text {
-            font-size: 1.5em;
-        }
-
-        #legend svg {
-            height: 300px;
-        }
-    </style>
+    <script src="https://d3js.org/d3.v4.min.js" defer></script>
+    <script src="src/wahlview/wahlanzeige.js" defer></script>
+    <link rel="stylesheet" href="src/wahlview/main.css">
 </head>
 <body>
 
 <h1>Vergleich alternativer Wahlergebnisse mit offiziellen Wahlergebnissen</h1>
 <h2>(Seite noch im Aufbau)</h2>
+
+<details>
+    <summary>Details zur Methode</summary>
+    <p>
+        Bei offiziellen Wahlergebnissen, werden die erreichten Prozentzahlen der Parteien auf Grundlage der insgesamt gültigen Stimmen berechnet.
+    </p><p>
+        Das hier benutzte Verfahren berechnet die alternativen Ergebnisse auf Grundlage der insgesamt möglichen Stimmen. Bei dieser Methode werden
+        also alle Stimmen als 100% angenommen und nicht nur die abgegebenen gültigen Stimmen. Diese Betrachtung scheint relevant, da bei einer
+        solchen Betrachtung die erreichten Stimmenanteile der Pateien möglicherweise näher zusammen rücken und dabei auch andere
+        Koalitionsmöglichkeiten entstehen könnten. Auf jeden Fall aber drücken diese alternativen Ergebnisse aus,
+        von wieviel Prozent aller Wähler die Parteien wirklich gewählt wurden, weil die Nichtwähler bei dieser Methode in die Berechnung eingehen.
+    </p>
+</details>
 
 <h2>Auswahl der Wahldaten</h2>
 <label>Bitte wählen:

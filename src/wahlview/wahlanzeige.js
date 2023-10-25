@@ -3,10 +3,10 @@ var dataFileName = '';
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    var auswahlElement=document.querySelector('#wahldaten');
+    var auswahlElement = document.querySelector('#wahldaten');
     auswahlElement.addEventListener('change', CheckAuswahl);
 
-    function CheckAuswahl () {
+    function CheckAuswahl() {
         dataFileName = auswahlElement.options[auswahlElement.selectedIndex].value;
         redrawDiagram();
     }
@@ -31,7 +31,6 @@ function redrawDiagram() {
         .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
 
-
     d3.json(dataFilePath + dataFileName, function (error, data) {
         if (error) {
             <!-- Statischer Text-->
@@ -45,9 +44,17 @@ function redrawDiagram() {
         <!-- Statischer Text-->
         d3.select("#titel").text(data.titel);
         d3.select("#untertitel").text(data.untertitel);
-        d3.select("#quelle").html("Datenquelle: <a href=\"" + data.datenquelle.url + "\">" + data.datenquelle.name + "</a>");
-
-
+        d3.select("#quelle").html("Datenquelle: " +
+            "<a href=\"" + data.datenquelle.url + "\" target=\"_blank\" rel=\"noopener noreferrer\">" +
+            data.datenquelle.name + "</a>" +
+            "<span class=\"CssComponent__CssInlineComponent-sc-1oskqb9-1 Icon___StyledCssInlineComponent-sc-11tmcw7-0  czJJEw\">" +
+            "<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\">" +
+            "<title>Link zu externen Inhalten</title>" +
+            "<path d=\"M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9\" class=\"icon_svg-stroke\" stroke=\"#666\" " +
+            "stroke-width=\"1.5\" fill=\"none\" fill-rule=\"evenodd\" " +
+            "stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+            "</path></svg></span>"
+        );
 
 
         <!-- Metadaten -->
