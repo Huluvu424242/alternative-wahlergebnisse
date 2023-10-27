@@ -33,7 +33,7 @@
       "org": "black"
     },
     "Grüne": {
-      "alt":"green",
+      "alt":"lightgreen",
       "org": "darkgreen"
     },
     "FW": {
@@ -57,12 +57,36 @@
       "org": "#cd4f39"
     },
     "BP": {
-      "alt": "#f5deb3",
+      "alt": "#F5B041",
       "org": "#cdba96"
     },
     "ÖDP": {
       "alt": "#ffffe0",
       "org": "#cdcdb4"
+    },
+    "Die PARTEI": {
+      "alt": "#D2B4DE",
+      "org": "#A569BD"
+    },
+    "Tierschutzpartei": {
+      "alt": "#A3E4D7",
+      "org": "#229954"
+    },
+    "V-Partei": {
+      "alt": "#DFFF00",
+      "org": "#1ABC9C"
+    },
+    "PdH": {
+      "alt": "#CCCCFF",
+      "org": "#6495ED"
+    },
+    "dieBasis": {
+      "alt": "#FF00FF",
+      "org": "#800080"
+    },
+    "Volt": {
+      "alt": "#F8C471",
+      "org": "#B9770E"
     }
   }
 }
