@@ -11,15 +11,21 @@
   "stimmengueltig": 13655897.0,
   "wahltag": "08.10.2023",
   "stimmen": [
-    {"name":"CSU", "stimmen": 5059142.0},
-    {"name":"Grüne","stimmen":1972147.0},
-    {"name":"FW","stimmen":2163353.0},
-    {"name":"AFD","stimmen":1999924.0},
-    {"name":"SPD","stimmen":1140585.0},
-    {"name":"FDP","stimmen":413595.0},
-    {"name":"Linke","stimmen":200795.0},
-    {"name":"BP","stimmen":129469.0},
-    {"name":"ÖDP","stimmen":245145.0}
+    {"name":"CSU", "stimmen": 5059571.0},
+    {"name":"Grüne","stimmen":1972725.0},
+    {"name":"FW","stimmen":2163849.0},
+    {"name":"AFD","stimmen":2000435.0},
+    {"name":"SPD","stimmen":1140753.0},
+    {"name":"FDP","stimmen":413887.0},
+    {"name":"Linke","stimmen":200878.0},
+    {"name":"BP","stimmen":129480.0},
+    {"name":"ÖDP","stimmen":245224.0},
+    {"name":"Die PARTEI","stimmen":64154.0},
+    {"name":"Tierschutzpartei","stimmen":69792.0},
+    {"name":"V-Partei","stimmen":22825.0},
+    {"name":"PdH","stimmen":14026.0},
+    {"name":"dieBasis","stimmen":119489.0},
+    {"name":"Volt","stimmen":41694.0}
   ],
   "colors": {
     "CSU": {
