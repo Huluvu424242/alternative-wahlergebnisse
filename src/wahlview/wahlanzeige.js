@@ -1,12 +1,12 @@
-import * as tooltip from "./tooltip.js"
+import {mouseleave, mousemove, mouseover} from "./tooltip.js"
+
+
 // (async () => {
 //     if (true) {
 //         // import module for side effects
 //         await import("tooltip");
 //     }
 // })();
-
-
 
 
 const dataFilePath = 'data/';
@@ -113,11 +113,11 @@ function redrawDiagram() {
             .text("Stimmen in Prozent");
 
         const infoOrgMouseMove = function (d) {
-            tooltip.mousemove(d, () => "Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / stimmengueltig).toFixed(1) + " %.")
+            mousemove(d, () => "Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / stimmengueltig).toFixed(1) + " %.")
         }
 
         const infoAltMouseMove = function (d) {
-            tooltip.mousemove(d, () => "Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
+            mousemove(d, () => "Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
         }
 
 
@@ -137,11 +137,10 @@ function redrawDiagram() {
             .attr("height", function (d) {
                 return height - yScale(d.stimmen * 100 / gesamtstimmen);
             })
-            .on("mouseover", tooltip.mouseover)
+            .on("mouseover", mouseover)
             .on("mousemove", infoAltMouseMove)
-            .on("mouseleave", tooltip.mouseleave)
+            .on("mouseleave", mouseleave)
         ;
-
 
 
         // Offizielle Werte
@@ -160,9 +159,9 @@ function redrawDiagram() {
             .attr("height", function (d) {
                 return height - yScale(d.stimmen * 100 / stimmengueltig);
             })
-            .on("mouseover", tooltip.mouseover)
+            .on("mouseover", mouseover)
             .on("mousemove", infoOrgMouseMove)
-            .on("mouseleave", tooltip.mouseleave)
+            .on("mouseleave", mouseleave)
         ;
 
     });
