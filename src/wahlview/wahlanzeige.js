@@ -15,6 +15,9 @@ let dataFileName = '';
 document.addEventListener('DOMContentLoaded', function () {
 
     const auswahlElement = document.querySelector('#wahldaten');
+    dataFileName = auswahlElement.options[auswahlElement.selectedIndex].value;
+    // initialies zeichnen für den initial selektierten Eintrag, bevor der Listener installiert wird.
+    redrawDiagram();
     auswahlElement.addEventListener('change', CheckAuswahl);
 
     function CheckAuswahl() {
