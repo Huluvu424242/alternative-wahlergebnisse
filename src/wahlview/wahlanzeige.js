@@ -66,50 +66,43 @@ function redrawDiagram() {
         var colors = data.colors;
 
 
-        <!-- Lengende bei Mouse Over -->
-        var Tooltip = d3.select("#tooltip")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
+        <!-- Tooltip bei Mouse Over -->
+        d3.select('body')
+            .append('div')
+            .attr('id', 'tooltip')
+            .attr('style', 'position: absolute; opacity: 0;')
             .style("background-color", "white")
             .style("border", "solid")
             .style("border-width", "2px")
             .style("border-radius", "5px")
             .style("padding", "5px")
+        ;
 
-        var mouseover = function (d) {
-            Tooltip
-                .style("opacity", 1)
-            d3.select(this)
-                .style("stroke", "black")
-                .style("opacity", 1)
+        const mouseover = function (d) {
+            d3.select('#tooltip').transition().duration(200).style('opacity', 1);
         }
 
-        var mouseleave = function (d) {
-            Tooltip
-                .style("opacity", 0)
-            d3.select(this)
-                .style("stroke", "none")
-                .style("opacity", 0.8)
+        const mouseleave = function (d) {
+            d3.select('#tooltip').style('opacity', 0)
         }
 
-        var mousemoveAlt = function (d) {
-            Tooltip
+        const mousemoveAlt = function (d) {
+            d3.select('#tooltip')
                 .html("Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
-                .style("left", (d3.mouse(this)[0] + 70) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
+                .style('left', (d3.event.pageX-100) + 'px')
+                .style('top', (d3.event.pageY+30) + 'px')
         }
 
-        var mousemoveOrg = function (d) {
-            Tooltip
+        const mousemoveOrg = function (d) {
+            d3.select('#tooltip')
                 .html("Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / stimmengueltig).toFixed(1) + " %.")
-                .style("left", (d3.mouse(this)[0] + 70) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
+                .style('left', (d3.event.pageX+10) + 'px')
+                .style('top', (d3.event.pageY+10) + 'px')
         }
 
         <!-- Diagramm Logik -->
 
-        var xdomain = data.stimmen.map(function (d) {
-            console.log(d);
+        const xdomain = data.stimmen.map(function (d) {
             return d.name;
         });
 
