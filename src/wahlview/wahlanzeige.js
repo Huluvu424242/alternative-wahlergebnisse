@@ -1,4 +1,12 @@
-import("/tooltip.js");
+import * as tooltip from "./tooltip.js"
+// (async () => {
+//     if (true) {
+//         // import module for side effects
+//         await import("tooltip");
+//     }
+// })();
+
+
 
 
 const dataFilePath = 'data/';
@@ -18,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function redrawDiagram() {
 
-    <!-- svg rahmen -->
+    // svg rahmen
 
     const svg = d3.select("#diagram"),
         margin = 200,
@@ -36,7 +44,7 @@ function redrawDiagram() {
 
     d3.json(dataFilePath + dataFileName, function (error, data) {
         if (error) {
-            <!-- Statischer Text-->
+            // Statischer Text
             d3.select("#titel").text("");
             d3.select("#untertitel").text("");
             d3.select("#quelle").html("");
@@ -44,7 +52,7 @@ function redrawDiagram() {
             throw error;
         }
 
-        <!-- Statischer Text-->
+        // Statischer Text
         d3.select("#titel").text(data.titel);
         d3.select("#untertitel").text(data.untertitel);
         d3.select("#quelle").html("Datenquelle: " +
@@ -60,7 +68,7 @@ function redrawDiagram() {
         );
 
 
-        <!-- Metadaten -->
+        // Metadaten
         const gesamtstimmen = data.stimmengesamt;
         const stimmengueltig = data.stimmengueltig;
         const minProzentAnzeige = data.minProzentAnzeige;
@@ -68,7 +76,7 @@ function redrawDiagram() {
         const tickAnzahl = (maxProzentAnzeige - minProzentAnzeige) / 5;
         const colors = data.colors;
 
-        <!-- Diagramm Logik -->
+        // Diagramm Logik
         const xdomain = data.stimmen.map(function (d) {
             return d.name;
         });
@@ -76,7 +84,7 @@ function redrawDiagram() {
         xScale.domain(xdomain);
         yScale.domain([minProzentAnzeige, maxProzentAnzeige]);
 
-        <!-- X-Achse -->
+        // X-Achse
         g.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(xScale).tickFormat(function (d) {
@@ -91,7 +99,7 @@ function redrawDiagram() {
             .attr("stroke", "black")
             .text("Parteien zur Wahl");
 
-        <!-- Y-Achse -->
+        // Y-Achse
         g.append("g")
             .call(d3.axisLeft(yScale).tickFormat(function (d) {
                 return d + ' %';
@@ -105,15 +113,15 @@ function redrawDiagram() {
             .text("Stimmen in Prozent");
 
         const infoOrgMouseMove = function (d) {
-            mousemove(d, () => "Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / stimmengueltig).toFixed(1) + " %.")
+            tooltip.mousemove(d, () => "Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / stimmengueltig).toFixed(1) + " %.")
         }
 
         const infoAltMouseMove = function (d) {
-            mousemove(d, () => "Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
+            tooltip.mousemove(d, () => "Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
         }
 
 
-        <!-- Alternative Werte -->
+        // Alternative Werte
         g.selectAll(".bar")
             .data(data.stimmen)
             .enter().append("rect")
@@ -129,14 +137,14 @@ function redrawDiagram() {
             .attr("height", function (d) {
                 return height - yScale(d.stimmen * 100 / gesamtstimmen);
             })
-            .on("mouseover", mouseover)
+            .on("mouseover", tooltip.mouseover)
             .on("mousemove", infoAltMouseMove)
-            .on("mouseleave", mouseleave)
+            .on("mouseleave", tooltip.mouseleave)
         ;
 
 
 
-        <!-- Offizielle Werte -->
+        // Offizielle Werte
         g.selectAll(".barorg")
             .data(data.stimmen)
             .enter().append("rect")
@@ -152,9 +160,9 @@ function redrawDiagram() {
             .attr("height", function (d) {
                 return height - yScale(d.stimmen * 100 / stimmengueltig);
             })
-            .on("mouseover", mouseover)
+            .on("mouseover", tooltip.mouseover)
             .on("mousemove", infoOrgMouseMove)
-            .on("mouseleave", mouseleave)
+            .on("mouseleave", tooltip.mouseleave)
         ;
 
     });

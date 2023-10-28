@@ -15,15 +15,15 @@ d3.select('body')
     .style("padding", "5px")
 ;
 
-const mouseover = function () {
+export function mouseover () {
     d3.select('#tooltip').transition().duration(200).style('opacity', 1);
 }
 
-const mouseleave = function () {
+export function mouseleave() {
     d3.select('#tooltip').style('opacity', 0)
 }
 
-const mousemove = function (d, getTextCallback) {
+export function mousemove(d, getTextCallback) {
     d3.select('#tooltip')
         .html(getTextCallback())
         .style('left', (d3.event.pageX-100) + 'px')
