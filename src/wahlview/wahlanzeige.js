@@ -1,3 +1,6 @@
+import("/tooltip.js");
+
+
 var dataFilePath = 'data/';
 var dataFileName = '';
 
@@ -17,17 +20,17 @@ function redrawDiagram() {
 
     <!-- svg rahmen -->
 
-    var svg = d3.select("#diagram"),
+    const svg = d3.select("#diagram"),
         margin = 200,
         width = svg.attr("width") - margin,
         height = svg.attr("height") - margin;
 
     svg.selectAll("*").remove();
 
-    var xScale = d3.scaleBand().range([0, width]).padding(0.2),
+    const xScale = d3.scaleBand().range([0, width]).padding(0.2),
         yScale = d3.scaleLinear().range([height, 0]);
 
-    var g = svg.append("g")
+    const g = svg.append("g")
         .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
 
@@ -58,50 +61,14 @@ function redrawDiagram() {
 
 
         <!-- Metadaten -->
-        var gesamtstimmen = data.stimmengesamt;
-        var stimmengueltig = data.stimmengueltig;
-        var minProzentAnzeige = data.minProzentAnzeige;
-        var maxProzentAnzeige = data.maxProzentAnzeige;
-        var tickAnzahl = (maxProzentAnzeige - minProzentAnzeige) / 5;
-        var colors = data.colors;
-
-
-        <!-- Tooltip bei Mouse Over -->
-        d3.select('body')
-            .append('div')
-            .attr('id', 'tooltip')
-            .attr('style', 'position: absolute; opacity: 0;')
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px")
-        ;
-
-        const mouseover = function (d) {
-            d3.select('#tooltip').transition().duration(200).style('opacity', 1);
-        }
-
-        const mouseleave = function (d) {
-            d3.select('#tooltip').style('opacity', 0)
-        }
-
-        const mousemoveAlt = function (d) {
-            d3.select('#tooltip')
-                .html("Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
-                .style('left', (d3.event.pageX-100) + 'px')
-                .style('top', (d3.event.pageY+30) + 'px')
-        }
-
-        const mousemoveOrg = function (d) {
-            d3.select('#tooltip')
-                .html("Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / stimmengueltig).toFixed(1) + " %.")
-                .style('left', (d3.event.pageX+10) + 'px')
-                .style('top', (d3.event.pageY+10) + 'px')
-        }
+        const gesamtstimmen = data.stimmengesamt;
+        const stimmengueltig = data.stimmengueltig;
+        const minProzentAnzeige = data.minProzentAnzeige;
+        const maxProzentAnzeige = data.maxProzentAnzeige;
+        const tickAnzahl = (maxProzentAnzeige - minProzentAnzeige) / 5;
+        const colors = data.colors;
 
         <!-- Diagramm Logik -->
-
         const xdomain = data.stimmen.map(function (d) {
             return d.name;
         });
@@ -137,6 +104,15 @@ function redrawDiagram() {
             .attr("stroke", "black")
             .text("Stimmen in Prozent");
 
+        const infoOrgMouseMove = function (d) {
+            mousemove(d, () => "Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
+        }
+
+        const infoAltMouseMove = function (d) {
+            mousemove(d, () => "Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
+        }
+
+
         <!-- Alternative Werte -->
         g.selectAll(".bar")
             .data(data.stimmen)
@@ -154,9 +130,10 @@ function redrawDiagram() {
                 return height - yScale(d.stimmen * 100 / gesamtstimmen);
             })
             .on("mouseover", mouseover)
-            .on("mousemove", mousemoveAlt)
+            .on("mousemove", infoAltMouseMove)
             .on("mouseleave", mouseleave)
         ;
+
 
 
         <!-- Offizielle Werte -->
@@ -176,38 +153,38 @@ function redrawDiagram() {
                 return height - yScale(d.stimmen * 100 / stimmengueltig);
             })
             .on("mouseover", mouseover)
-            .on("mousemove", mousemoveOrg)
+            .on("mousemove", infoOrgMouseMove)
             .on("mouseleave", mouseleave)
         ;
 
         <!-- add legend -->
-        var xOffset = 10;
-        var yOffset = 100;
-        var legendItemSize = 12;
-        var legendSpacing = 4;
-
-        var legend = d3.select("#legend");
-
-        legend
-            .enter()
-            .append('rect')
-            .attr('class', 'legendItem')
-            .attr('width', legendItemSize)
-            .attr('height', legendItemSize)
-            .style('fill', d => d.color)
-            .attr('transform',
-                (d, i) => {
-                    var x = xOffset;
-                    var y = yOffset + (legendItemSize + legendSpacing) * i;
-                    return `translate(${x}, ${y})`;
-                });
-
-        legend
-            .enter()
-            .append('text')
-            .attr('x', xOffset + legendItemSize + 5)
-            .attr('y', (d, i) => yOffset + (legendItemSize + legendSpacing) * i + 12)
-            .text(d => d.name);
+        // const xOffset = 10;
+        // const yOffset = 100;
+        // const legendItemSize = 12;
+        // const legendSpacing = 4;
+        //
+        // const legend = d3.select("#legend");
+        //
+        // legend
+        //     .enter()
+        //     .append('rect')
+        //     .attr('class', 'legendItem')
+        //     .attr('width', legendItemSize)
+        //     .attr('height', legendItemSize)
+        //     .style('fill', d => d.color)
+        //     .attr('transform',
+        //         (d, i) => {
+        //             var x = xOffset;
+        //             var y = yOffset + (legendItemSize + legendSpacing) * i;
+        //             return `translate(${x}, ${y})`;
+        //         });
+        //
+        // legend
+        //     .enter()
+        //     .append('text')
+        //     .attr('x', xOffset + legendItemSize + 5)
+        //     .attr('y', (d, i) => yOffset + (legendItemSize + legendSpacing) * i + 12)
+        //     .text(d => d.name);
 
     });
 
