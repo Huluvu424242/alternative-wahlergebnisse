@@ -1,12 +1,12 @@
 import("/tooltip.js");
 
 
-var dataFilePath = 'data/';
-var dataFileName = '';
+const dataFilePath = 'data/';
+let dataFileName = '';
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    var auswahlElement = document.querySelector('#wahldaten');
+    const auswahlElement = document.querySelector('#wahldaten');
     auswahlElement.addEventListener('change', CheckAuswahl);
 
     function CheckAuswahl() {
@@ -105,7 +105,7 @@ function redrawDiagram() {
             .text("Stimmen in Prozent");
 
         const infoOrgMouseMove = function (d) {
-            mousemove(d, () => "Anteil bezogen auf alle potentiellen Wählerstimmen (alternative Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / gesamtstimmen).toFixed(1) + " %.")
+            mousemove(d, () => "Anteil bezogen nur auf alle gültigen Wählerstimmen (offizielle Berechnung) ist:<br>" + d.name + ": " + (d.stimmen * 100 / stimmengueltig).toFixed(1) + " %.")
         }
 
         const infoAltMouseMove = function (d) {
@@ -156,35 +156,6 @@ function redrawDiagram() {
             .on("mousemove", infoOrgMouseMove)
             .on("mouseleave", mouseleave)
         ;
-
-        <!-- add legend -->
-        // const xOffset = 10;
-        // const yOffset = 100;
-        // const legendItemSize = 12;
-        // const legendSpacing = 4;
-        //
-        // const legend = d3.select("#legend");
-        //
-        // legend
-        //     .enter()
-        //     .append('rect')
-        //     .attr('class', 'legendItem')
-        //     .attr('width', legendItemSize)
-        //     .attr('height', legendItemSize)
-        //     .style('fill', d => d.color)
-        //     .attr('transform',
-        //         (d, i) => {
-        //             var x = xOffset;
-        //             var y = yOffset + (legendItemSize + legendSpacing) * i;
-        //             return `translate(${x}, ${y})`;
-        //         });
-        //
-        // legend
-        //     .enter()
-        //     .append('text')
-        //     .attr('x', xOffset + legendItemSize + 5)
-        //     .attr('y', (d, i) => yOffset + (legendItemSize + legendSpacing) * i + 12)
-        //     .text(d => d.name);
 
     });
 
