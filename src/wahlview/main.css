@@ -19,7 +19,3 @@ select:focus option:checked {
 text {
     font-size: 1.5em;
 }
-
-#legend svg {
-    height: 300px;
-}
